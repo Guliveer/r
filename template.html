@@ -1,21 +1,25 @@
+---
+target: https://example.com
+---
+
 <!DOCTYPE html>
 <html lang="en">
 
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="refresh" content="0; url=https://example.com">
+		<meta http-equiv="refresh" content="0; url={{ page.target }}">
 		<title>Redirect</title>
 	</head>
 
 	<body>
 		<script>
-			document.location.href = "https://example.com";
+			document.location.href = "{{ page.target }}";
 		</script>
 
 		<noscript>
 			<h1>Redirecting...</h1>
-			<p>If you are not redirected automatically, please click <a href="https://example.com">here</a>.</p>
+			<p>If you are not redirected automatically, please click <a href="{{ page.target }}">here</a>.</p>
 		</noscript>
 	</body>
 
