@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+:root {
+    --foreground: #212529;
+    --background: #f8f9fa;
+
+    color: var(--foreground);
+    background-color: var(--background);
+}
+
+@media (prefers-color-scheme: dark) {
+    /* dark mode */
+    :root {
+        --foreground: #f8f9fa;
+        --background: #212529;
+    }
+}
+
+* {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    font-weight: 300;
+    cursor: default;
+}
+
+a,
+a:hover,
+a:visited,
+a:active {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
