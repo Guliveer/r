@@ -11,7 +11,7 @@ It uses a [**JSON file**](/public/redirects.json) to store redirection mappings,
 4. A fallback message is displayed with a hyperlink in case the redirect fails.
 
 ## 📝 Configuration
-Modify the `redirects.json` file to add new redirects.
+Modify the [`redirects.json`](/public/redirects.json) file to add new redirects.
 It also supports nested paths for better organization and readability.
 
 ```json
