@@ -20,6 +20,14 @@
   margin: 0 0 1.75rem;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .back {
   display: inline-flex;
   align-items: center;

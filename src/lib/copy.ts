@@ -25,6 +25,17 @@ export const REDIRECT_HEADLINES = [
   "Off you go.",
 ];
 
+export const NOT_FOUND_GITHUB_BUTTONS = [
+  "Take me somewhere real ↗",
+  "Show me what actually exists ↗",
+  "Exit the void ↗",
+  "Find something that works ↗",
+  "Escape route ↗",
+  "Back to civilization ↗",
+  "At least GitHub exists ↗",
+  "Try the real thing ↗",
+];
+
 export const NOT_FOUND_HEADLINES = [
   "Lost in redirect.",
   "Dead end.",

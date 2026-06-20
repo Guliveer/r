@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { pickRandom, NOT_FOUND_HEADLINES } from "@/lib/copy";
+import { pickRandom, NOT_FOUND_HEADLINES, NOT_FOUND_GITHUB_BUTTONS } from "@/lib/copy";
 import s from "@/styles/shared.module.css";
 import c from "@/styles/404.module.css";
 
 export default function NotFound() {
   const [headline, setHeadline] = useState<string>("");
+  const [githubButton, setGithubButton] = useState<string>("");
 
   useEffect(() => {
     setHeadline(pickRandom(NOT_FOUND_HEADLINES));
+    setGithubButton(pickRandom(NOT_FOUND_GITHUB_BUTTONS));
   }, []);
 
   return (
@@ -31,9 +33,17 @@ export default function NotFound() {
           <p className={`${c.subItalic} ${s.fadeItem} ${s.delay2}`}>
             (Or maybe everywhere.)
           </p>
-          <a href="/" className={`${c.back} ${s.fadeItem} ${s.delay3}`}>
-            ← Go back
-          </a>
+          <div className={`${c.actions} ${s.fadeItem} ${s.delay3}`}>
+            <a href="/" className={c.back}>← Go back</a>
+            <a
+              href="https://github.com/Guliveer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={s.button}
+            >
+              {githubButton || "Take me somewhere real ↗"}
+            </a>
+          </div>
         </div>
       </div>
     </>
