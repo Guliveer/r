@@ -1,0 +1,37 @@
+import type { RedirectMap, RedirectNode, RedirectValue, FlatRedirectEntry } from "@/types/redirects";
+
+export function flattenPaths(node: RedirectNode, prefix: string[] = []): FlatRedirectEntry[] {
+  const entries: FlatRedirectEntry[] = [];
+
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "default") continue;
+
+    const currentSlug = [...prefix, key];
+
+    if (typeof value === "string") {
+      entries.push({ slug: currentSlug, target: value });
+    } else if (typeof value === "object" && value !== null) {
+      entries.push(...flattenPaths(value as RedirectNode, currentSlug));
+    }
+  }
+
+  return entries;
+}
+
+export function resolveRedirect(segments: string[], map: RedirectMap): string | null {
+  let current: RedirectValue = map as RedirectNode;
+
+  for (const segment of segments) {
+    if (typeof current !== "object" || current === null) return null;
+    const next: RedirectValue | undefined = (current as RedirectNode)[segment];
+    if (next === undefined) return null;
+    current = next;
+  }
+
+  if (typeof current === "string") return current;
+  return null;
+}
+
+export function getDefaultRedirect(map: RedirectMap): string | null {
+  return map.default ?? null;
+}

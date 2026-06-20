@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Guliveer/r/schemas/redirects.schema.json",
+  "title": "RedirectMap",
+  "description": "URL redirect map. Supports nested keys for organized grouping.",
+  "type": "object",
+  "properties": {
+    "default": {
+      "type": "string",
+      "description": "Default redirect target for the root path /"
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/RedirectValue"
+  },
+  "$defs": {
+    "RedirectValue": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/RedirectNode"
+        }
+      ]
+    },
+    "RedirectNode": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/RedirectValue"
+      },
+      "minProperties": 1
+    }
+  }
+}
