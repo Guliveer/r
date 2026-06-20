@@ -38,8 +38,8 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
-  color: #3a3a3a;
-  border: 1px solid #1a1a1a;
+  color: #505050;
+  border: 1px solid #252525;
   border-radius: 999px;
   padding: 0.3rem 0.75rem;
   margin: 0 0 1.75rem;
@@ -48,10 +48,10 @@
 }
 
 .destinationDot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: #2a2a2a;
+  background: #404040;
   flex-shrink: 0;
 }
 
