@@ -39,14 +39,16 @@ describe("Redirect component", () => {
     expect(screen.getByRole("link")).toHaveAttribute("href", "https://example.com");
   });
 
-  it("displays the redirect target", () => {
+  it("displays the display URL (hostname only)", () => {
     render(<Redirect target="https://example.com" slug={["example"]} />);
-    expect(screen.getByText(/https:\/\/example\.com/)).toBeInTheDocument();
+    expect(screen.getByText("example.com")).toBeInTheDocument();
   });
 
-  it("renders 'Redirecting' text", () => {
+  it("renders a non-empty headline", () => {
     render(<Redirect target="https://example.com" slug={["example"]} />);
-    expect(screen.getByText(/redirecting/i)).toBeInTheDocument();
+    const headlines = screen.getAllByRole("paragraph");
+    const headline = headlines[0];
+    expect(headline.textContent).toBeTruthy();
   });
 
   it("renders a link for a mailto URI", () => {

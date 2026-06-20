@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import redirectsData from "../../public/redirects.json";
 import { flattenPaths, resolveRedirect } from "@/lib/redirects";
+import { pickRandom, REDIRECT_HEADLINES } from "@/lib/copy";
 import type { RedirectMap, RedirectPageProps } from "@/types/redirects";
+import s from "@/styles/shared.module.css";
 
 const map = redirectsData as RedirectMap;
 
@@ -33,26 +35,45 @@ function isWebUrl(uri: string): boolean {
   return uri.startsWith("http://") || uri.startsWith("https://");
 }
 
+function getDisplayUrl(uri: string): string {
+  try {
+    const u = new URL(uri);
+    return u.hostname + (u.pathname !== "/" ? u.pathname : "");
+  } catch {
+    return uri;
+  }
+}
+
 export default function Redirect({ target }: RedirectPageProps) {
+  const [headline, setHeadline] = useState<string>("");
+
   useEffect(() => {
-    window.location.replace(target);
+    setHeadline(pickRandom(REDIRECT_HEADLINES));
+    const timer = setTimeout(() => window.location.replace(target), 1000);
+    return () => clearTimeout(timer);
   }, [target]);
 
   return (
     <>
       <Head>
-        <title>Redirecting...</title>
+        <title>Redirecting…</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        {isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
+        {isWebUrl(target) && <meta httpEquiv="refresh" content={`1;url=${target}`} />}
       </Head>
-      <div>
-        Redirecting to:
-        <br />
-        {target}
-        <br />
-        <br />
-        Click <a href={target}>here</a> if you are not redirected automatically.
+      <div className={s.page}>
+        <div className={s.card}>
+          <p className={`${s.headline} ${s.fadeItem} ${s.delay0}`}>
+            {headline || "Redirecting…"}
+          </p>
+          <hr className={`${s.rule} ${s.fadeItem} ${s.delay1}`} />
+          <p className={`${s.url} ${s.fadeItem} ${s.delay1}`}>
+            {getDisplayUrl(target)}
+          </p>
+          <a href={target} className={`${s.button} ${s.fadeItem} ${s.delay2}`}>
+            Open manually ↗
+          </a>
+        </div>
       </div>
     </>
   );

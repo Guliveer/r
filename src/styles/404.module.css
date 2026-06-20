@@ -1,0 +1,35 @@
+.code {
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 700;
+  color: #f5f5f5;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0 0 1.5rem;
+}
+
+.sub {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 0 0 0.4rem;
+}
+
+.subItalic {
+  font-size: 0.875rem;
+  color: #444;
+  font-style: italic;
+  margin: 0 0 1.75rem;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.back:hover {
+  color: #f5f5f5;
+}
