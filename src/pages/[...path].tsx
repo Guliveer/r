@@ -67,7 +67,6 @@ export default function Redirect({ target }: RedirectPageProps) {
           </p>
           <hr className={`${s.rule} ${s.fadeItem} ${s.delay1}`} />
           <span className={`${s.destination} ${s.fadeItem} ${s.delay1}`}>
-            <span className={s.destinationDot} aria-hidden="true" />
             {getDisplayUrl(target)}
           </span>
           <a href={target} className={`${s.button} ${s.fadeItem} ${s.delay2}`}>
