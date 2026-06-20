@@ -18,6 +18,7 @@ export default function NotFound() {
       <Head>
         <title>404 — Not Found</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#0a0a0a" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={s.page}>

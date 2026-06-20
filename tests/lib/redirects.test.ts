@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { flattenPaths, resolveRedirect, getDefaultRedirect, isSafeUrl, isWebUrl } from "@/lib/redirects";
+import { flattenPaths, resolveRedirect, getDefaultRedirect, isSafeUrl, isWebUrl, getDisplayUrl } from "@/lib/redirects";
 import type { RedirectMap } from "@/types/redirects";
 
 describe("flattenPaths", () => {
@@ -107,4 +107,22 @@ describe("isWebUrl", () => {
   it("returns true for http", () => expect(isWebUrl("http://example.com")).toBe(true));
   it("returns false for mailto", () => expect(isWebUrl("mailto:hi@example.com")).toBe(false));
   it("returns false for tel", () => expect(isWebUrl("tel:+48123456789")).toBe(false));
+});
+
+describe("getDisplayUrl", () => {
+  it("returns hostname for a root URL", () => {
+    expect(getDisplayUrl("https://github.com")).toBe("github.com");
+  });
+
+  it("includes pathname when non-root", () => {
+    expect(getDisplayUrl("https://github.com/Guliveer")).toBe("github.com/Guliveer");
+  });
+
+  it("omits trailing slash", () => {
+    expect(getDisplayUrl("https://github.com/")).toBe("github.com");
+  });
+
+  it("returns the address part of a mailto URI", () => {
+    expect(getDisplayUrl("mailto:hi@example.com")).toBe("hi@example.com");
+  });
 });

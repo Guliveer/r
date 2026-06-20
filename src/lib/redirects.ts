@@ -48,3 +48,12 @@ export function isSafeUrl(uri: string): boolean {
 export function isWebUrl(uri: string): boolean {
   return uri.startsWith("http://") || uri.startsWith("https://");
 }
+
+export function getDisplayUrl(uri: string): string {
+  try {
+    const u = new URL(uri);
+    return u.hostname + (u.pathname !== "/" ? u.pathname : "");
+  } catch {
+    return uri;
+  }
+}

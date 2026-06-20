@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import redirectsData from "../../public/redirects.json";
-import { flattenPaths, resolveRedirect, isSafeUrl, isWebUrl } from "@/lib/redirects";
+import { flattenPaths, resolveRedirect, isSafeUrl, isWebUrl, getDisplayUrl } from "@/lib/redirects";
 import { pickRandom, REDIRECT_HEADLINES } from "@/lib/copy";
 import type { RedirectMap, RedirectPageProps } from "@/types/redirects";
 import s from "@/styles/shared.module.css";
@@ -28,17 +28,8 @@ export const getStaticProps: GetStaticProps<RedirectPageProps> = async ({ params
     return { notFound: true };
   }
 
-  return { props: { target, slug: segments } };
+  return { props: { target } };
 };
-
-function getDisplayUrl(uri: string): string {
-  try {
-    const u = new URL(uri);
-    return u.hostname + (u.pathname !== "/" ? u.pathname : "");
-  } catch {
-    return uri;
-  }
-}
 
 export default function Redirect({ target }: RedirectPageProps) {
   const [headline, setHeadline] = useState<string>("");
@@ -48,11 +39,14 @@ export default function Redirect({ target }: RedirectPageProps) {
     window.location.replace(target);
   }, [target]);
 
+  const displayUrl = getDisplayUrl(target);
+
   return (
     <>
       <Head>
-        <title>{`→ ${getDisplayUrl(target)}`}</title>
+        <title>{`→ ${displayUrl}`}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#0a0a0a" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex, nofollow" />
         {isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
@@ -63,10 +57,17 @@ export default function Redirect({ target }: RedirectPageProps) {
             {headline || "Redirecting…"}
           </p>
           <hr className={`${s.rule} ${s.fadeItem} ${s.delay1}`} />
-          <span className={`${s.destination} ${s.fadeItem} ${s.delay1}`}>
-            {getDisplayUrl(target)}
+          <span
+            className={`${s.destination} ${s.fadeItem} ${s.delay1}`}
+            aria-label={`Redirecting to ${displayUrl}`}
+          >
+            {displayUrl}
           </span>
-          <a href={target} className={`${s.button} ${s.fadeItem} ${s.delay2}`}>
+          <a
+            href={target}
+            rel="noopener noreferrer"
+            className={`${s.button} ${s.fadeItem} ${s.delay2}`}
+          >
             Open manually ↗
           </a>
         </div>

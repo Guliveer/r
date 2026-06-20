@@ -35,24 +35,33 @@ describe("getStaticProps", () => {
 
 describe("Redirect component", () => {
   it("renders a link to a web URL target", () => {
-    render(<Redirect target="https://example.com" slug={["example"]} />);
+    render(<Redirect target="https://example.com" />);
     expect(screen.getByRole("link")).toHaveAttribute("href", "https://example.com");
   });
 
+  it("link has rel=noopener noreferrer", () => {
+    render(<Redirect target="https://example.com" />);
+    expect(screen.getByRole("link")).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   it("displays the display URL (hostname only)", () => {
-    render(<Redirect target="https://example.com" slug={["example"]} />);
+    render(<Redirect target="https://example.com" />);
     expect(screen.getByText("example.com")).toBeInTheDocument();
   });
 
+  it("destination chip has aria-label", () => {
+    render(<Redirect target="https://example.com" />);
+    expect(screen.getByLabelText("Redirecting to example.com")).toBeInTheDocument();
+  });
+
   it("renders a non-empty headline", () => {
-    render(<Redirect target="https://example.com" slug={["example"]} />);
+    render(<Redirect target="https://example.com" />);
     const headlines = screen.getAllByRole("paragraph");
-    const headline = headlines[0];
-    expect(headline.textContent).toBeTruthy();
+    expect(headlines[0].textContent).toBeTruthy();
   });
 
   it("renders a link for a mailto URI", () => {
-    render(<Redirect target="mailto:hello@example.com" slug={["email"]} />);
+    render(<Redirect target="mailto:hello@example.com" />);
     expect(screen.getByRole("link")).toHaveAttribute("href", "mailto:hello@example.com");
   });
 });

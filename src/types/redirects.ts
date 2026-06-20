@@ -13,5 +13,4 @@ export interface FlatRedirectEntry {
 
 export interface RedirectPageProps {
   target: string;
-  slug: string[];
 }
