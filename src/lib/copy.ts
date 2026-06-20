@@ -13,6 +13,16 @@ export const REDIRECT_HEADLINES = [
   "Don't touch anything.",
   "Teleporting...",
   "Calculating shortest path.",
+  "You're being redirected. Probably.",
+  "Please do not panic.",
+  "This link goes brrr.",
+  "Warming up the engines.",
+  "Traveling at the speed of HTTP.",
+  "No turning back now.",
+  "Initiating warp sequence.",
+  "Just trust the process.",
+  "Getting you out of here.",
+  "Off you go.",
 ];
 
 export const NOT_FOUND_HEADLINES = [
@@ -22,4 +32,10 @@ export const NOT_FOUND_HEADLINES = [
   "404: link not found.",
   "Where did you even get this URL?",
   "This one got away.",
+  "Nothing to see here.",
+  "The link has left the building.",
+  "You've reached the edge of the map.",
+  "This redirect was never meant to be.",
+  "Wrong turn.",
+  "Even the void doesn't know this path.",
 ];

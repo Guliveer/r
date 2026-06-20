@@ -49,8 +49,7 @@ export default function Redirect({ target }: RedirectPageProps) {
 
   useEffect(() => {
     setHeadline(pickRandom(REDIRECT_HEADLINES));
-    const timer = setTimeout(() => window.location.replace(target), 1000);
-    return () => clearTimeout(timer);
+    window.location.replace(target);
   }, [target]);
 
   return (
@@ -59,7 +58,7 @@ export default function Redirect({ target }: RedirectPageProps) {
         <title>Redirecting…</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        {isWebUrl(target) && <meta httpEquiv="refresh" content={`1;url=${target}`} />}
+        {isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
       </Head>
       <div className={s.page}>
         <div className={s.card}>
