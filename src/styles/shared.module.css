@@ -10,9 +10,11 @@
 .card {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0;
   max-width: 480px;
   width: 100%;
+  text-align: center;
 }
 
 .headline {
@@ -26,15 +28,31 @@
 
 .rule {
   border: none;
-  border-top: 1px solid #222;
+  border-top: 1px solid #1e1e1e;
+  width: 100%;
   margin: 1.5rem 0;
 }
 
-.url {
-  font-size: 0.9rem;
-  color: #555;
-  word-break: break-all;
+.destination {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: #3a3a3a;
+  border: 1px solid #1a1a1a;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
   margin: 0 0 1.75rem;
+  letter-spacing: 0.01em;
+  word-break: break-all;
+}
+
+.destinationDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  flex-shrink: 0;
 }
 
 .button {
