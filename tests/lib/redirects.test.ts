@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { flattenPaths, resolveRedirect, getDefaultRedirect } from "@/lib/redirects";
+import { flattenPaths, resolveRedirect, getDefaultRedirect, isSafeUrl, isWebUrl } from "@/lib/redirects";
 import type { RedirectMap } from "@/types/redirects";
 
 describe("flattenPaths", () => {
@@ -90,4 +90,21 @@ describe("getDefaultRedirect", () => {
   it("returns null when default is absent", () => {
     expect(getDefaultRedirect({})).toBeNull();
   });
+});
+
+describe("isSafeUrl", () => {
+  it("allows https", () => expect(isSafeUrl("https://github.com")).toBe(true));
+  it("allows http", () => expect(isSafeUrl("http://example.com")).toBe(true));
+  it("allows mailto", () => expect(isSafeUrl("mailto:hi@example.com")).toBe(true));
+  it("allows tel", () => expect(isSafeUrl("tel:+48123456789")).toBe(true));
+  it("blocks javascript", () => expect(isSafeUrl("javascript:alert(1)")).toBe(false));
+  it("blocks data URIs", () => expect(isSafeUrl("data:text/html,<h1>x</h1>")).toBe(false));
+  it("blocks invalid strings", () => expect(isSafeUrl("not a url")).toBe(false));
+});
+
+describe("isWebUrl", () => {
+  it("returns true for https", () => expect(isWebUrl("https://github.com")).toBe(true));
+  it("returns true for http", () => expect(isWebUrl("http://example.com")).toBe(true));
+  it("returns false for mailto", () => expect(isWebUrl("mailto:hi@example.com")).toBe(false));
+  it("returns false for tel", () => expect(isWebUrl("tel:+48123456789")).toBe(false));
 });

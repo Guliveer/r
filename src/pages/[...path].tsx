@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import redirectsData from "../../public/redirects.json";
-import { flattenPaths, resolveRedirect } from "@/lib/redirects";
+import { flattenPaths, resolveRedirect, isSafeUrl, isWebUrl } from "@/lib/redirects";
 import { pickRandom, REDIRECT_HEADLINES } from "@/lib/copy";
 import type { RedirectMap, RedirectPageProps } from "@/types/redirects";
 import s from "@/styles/shared.module.css";
@@ -24,16 +24,12 @@ export const getStaticProps: GetStaticProps<RedirectPageProps> = async ({ params
 
   const target = resolveRedirect(segments, map);
 
-  if (!target) {
+  if (!target || !isSafeUrl(target)) {
     return { notFound: true };
   }
 
   return { props: { target, slug: segments } };
 };
-
-function isWebUrl(uri: string): boolean {
-  return uri.startsWith("http://") || uri.startsWith("https://");
-}
 
 function getDisplayUrl(uri: string): string {
   try {
@@ -55,9 +51,10 @@ export default function Redirect({ target }: RedirectPageProps) {
   return (
     <>
       <Head>
-        <title>Redirecting…</title>
+        <title>{`→ ${getDisplayUrl(target)}`}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="robots" content="noindex, nofollow" />
         {isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
       </Head>
       <div className={s.page}>

@@ -35,3 +35,16 @@ export function resolveRedirect(segments: string[], map: RedirectMap): string | 
 export function getDefaultRedirect(map: RedirectMap): string | null {
   return map.default ?? null;
 }
+
+export function isSafeUrl(uri: string): boolean {
+  try {
+    const { protocol } = new URL(uri);
+    return protocol === "http:" || protocol === "https:" || protocol === "mailto:" || protocol === "tel:";
+  } catch {
+    return false;
+  }
+}
+
+export function isWebUrl(uri: string): boolean {
+  return uri.startsWith("http://") || uri.startsWith("https://");
+}

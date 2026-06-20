@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={geist.className}>
       <Component {...pageProps} />
-      <Analytics />
+      <Analytics mode="auto" />
     </main>
   );
 }
