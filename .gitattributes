@@ -1,0 +1,17 @@
+# Linguist overrides
+
+# Dependencies and build output — exclude from language stats
+node_modules/** linguist-vendored
+.next/** linguist-generated
+
+# IDE metadata
+.idea/** linguist-vendored
+
+# TypeScript build info is generated
+*.tsbuildinfo linguist-generated
+
+# Source maps are generated
+*.map linguist-generated
+
+# Lock files are generated
+package-lock.json linguist-generated
