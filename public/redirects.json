@@ -1,14 +1,15 @@
 {
   "default": "https://cv.guliveer.vercel.app/",
   "cv": "https://cv.guliveer.vercel.app/",
+  
   "social": {
     "linkedin": "https://linkedin.com/in/oliwer-pawelski/",
     "github": "https://github.com/Guliveer"
   },
-  "repo": {
-    "twitch-miner-go": "https://github.com/Guliveer/twitch-miner-go",
-    "r": "https://github.com/Guliveer/r"
-  },
+  
+  "twitch-miner-go": "https://github.com/Guliveer/twitch-miner-go",
+  "source": "https://github.com/Guliveer/r",
+  
   "star-citizen": "https://robertsspaceindustries.com/en/enlist?referral=STAR-KPZV-KKSC",
   "macos-apps": "https://t.ly/CO6R"
 }
