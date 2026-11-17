@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import redirectsData from "../../public/redirects.json";
-import { flattenPaths, resolveRedirect, isSafeUrl, isWebUrl, getDisplayUrl } from "@/lib/redirects";
+import { flattenPaths, resolveRedirect, isSafeUrl, getDisplayUrl } from "@/lib/redirects";
+import { fetchPreviewMetadata } from "@/lib/preview";
 import { pickRandom, REDIRECT_HEADLINES } from "@/lib/copy";
+import PreviewHead from "@/components/PreviewHead";
 import type { RedirectMap, RedirectPageProps } from "@/types/redirects";
 import s from "@/styles/shared.module.css";
 
@@ -28,10 +29,12 @@ export const getStaticProps: GetStaticProps<RedirectPageProps> = async ({ params
     return { notFound: true };
   }
 
-  return { props: { target } };
+  const preview = await fetchPreviewMetadata(target);
+
+  return { props: { target, preview } };
 };
 
-export default function Redirect({ target }: RedirectPageProps) {
+export default function Redirect({ target, preview }: RedirectPageProps) {
   const [headline, setHeadline] = useState<string>("");
 
   useEffect(() => {
@@ -39,18 +42,11 @@ export default function Redirect({ target }: RedirectPageProps) {
     window.location.replace(target);
   }, [target]);
 
-  const displayUrl = getDisplayUrl(target);
+  const displayUrl = preview?.title ?? getDisplayUrl(target);
 
   return (
     <>
-      <Head>
-        <title>{`→ ${displayUrl}`}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0a0a0a" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="robots" content="noindex, nofollow" />
-        {isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
-      </Head>
+      <PreviewHead target={target} preview={preview} />
       <div className={s.page}>
         <div className={s.card}>
           <p className={`${s.headline} ${s.fadeItem} ${s.delay0}`}>
@@ -59,7 +55,7 @@ export default function Redirect({ target }: RedirectPageProps) {
           <hr className={`${s.rule} ${s.fadeItem} ${s.delay1}`} />
           <span
             className={`${s.destination} ${s.fadeItem} ${s.delay1}`}
-            aria-label={`Redirecting to ${displayUrl}`}
+            aria-label={`Redirecting to ${getDisplayUrl(target)}`}
           >
             {displayUrl}
           </span>

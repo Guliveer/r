@@ -6,13 +6,19 @@ vi.mock("next/head", () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
+vi.mock("@/lib/preview", () => ({
+  fetchPreviewMetadata: async () => null,
+}));
+
 describe("getStaticPaths", () => {
   it("generates paths for all top-level redirects", async () => {
     const result = await getStaticPaths({});
     expect(result.fallback).toBe(false);
     expect(result.paths.length).toBeGreaterThan(0);
     const slugs = result.paths.map((p) => (p as { params: { path: string[] } }).params.path);
-    expect(slugs).toContainEqual(["github"]);
+    expect(slugs).toContainEqual(["source"]);
+    expect(slugs).toContainEqual(["social", "github"]);
+    expect(slugs).not.toContainEqual(["index"]);
   });
 });
 
@@ -23,7 +29,7 @@ describe("getStaticProps", () => {
   });
 
   it("returns props with target for a known flat path", async () => {
-    const result = await getStaticProps({ params: { path: ["github"] }, locales: undefined, locale: undefined, defaultLocale: undefined });
+    const result = await getStaticProps({ params: { path: ["source"] }, locales: undefined, locale: undefined, defaultLocale: undefined });
     expect(result).toMatchObject({ props: { target: expect.stringContaining("github.com") } });
   });
 
@@ -52,6 +58,34 @@ describe("Redirect component", () => {
   it("destination chip has aria-label", () => {
     render(<Redirect target="https://example.com" />);
     expect(screen.getByLabelText("Redirecting to example.com")).toBeInTheDocument();
+  });
+
+  it("mirrors the target's embed metadata", () => {
+    render(
+      <Redirect
+        target="https://guliveer.github.io/twitch-miner-go/"
+        preview={{
+          title: "twitch-miner-go — Go to bed. It's mining.",
+          description: "Mines channel points.",
+          image: "https://example.com/brag.jpg",
+          siteName: "GitHub Pages",
+          type: "website",
+        }}
+      />,
+    );
+
+    expect(document.querySelector('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      "twitch-miner-go — Go to bed. It's mining.",
+    );
+    expect(document.querySelector('meta[property="og:image"]')).toHaveAttribute(
+      "content",
+      "https://example.com/brag.jpg",
+    );
+    expect(document.querySelector('meta[name="twitter:card"]')).toHaveAttribute(
+      "content",
+      "summary_large_image",
+    );
   });
 
   it("renders a non-empty headline", () => {

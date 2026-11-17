@@ -1,13 +1,26 @@
-import Head from "next/head";
 import { useEffect, useState } from "react";
+import type { GetStaticProps } from "next";
 import redirectsData from "../../public/redirects.json";
-import { getDefaultRedirect, isWebUrl } from "@/lib/redirects";
+import { getDefaultRedirect, isSafeUrl } from "@/lib/redirects";
+import { fetchPreviewMetadata } from "@/lib/preview";
 import { pickRandom, REDIRECT_HEADLINES } from "@/lib/copy";
-import type { RedirectMap } from "@/types/redirects";
+import PreviewHead from "@/components/PreviewHead";
+import type { IndexPageProps, RedirectMap } from "@/types/redirects";
 import s from "@/styles/shared.module.css";
 
-export default function Home() {
+export const getStaticProps: GetStaticProps<IndexPageProps> = async () => {
   const target = getDefaultRedirect(redirectsData as RedirectMap);
+
+  if (!target || !isSafeUrl(target)) {
+    return { props: { target: null, preview: null } };
+  }
+
+  const preview = await fetchPreviewMetadata(target);
+
+  return { props: { target, preview } };
+};
+
+export default function Home({ target, preview }: IndexPageProps) {
   const [headline, setHeadline] = useState<string>("");
 
   useEffect(() => {
@@ -19,13 +32,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Redirecting…</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="robots" content="noindex, nofollow" />
-        {target && isWebUrl(target) && <meta httpEquiv="refresh" content={`0;url=${target}`} />}
-      </Head>
+      {target ? <PreviewHead target={target} preview={preview} /> : null}
       <div className={s.page}>
         <div className={s.card}>
           <p className={`${s.headline} ${s.fadeItem} ${s.delay0}`}>

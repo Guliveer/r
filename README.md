@@ -31,6 +31,12 @@ Edit `public/redirects.json` to manage your redirects. Nested keys are supported
 | `/github` | `https://github.com/yourname` |
 | `/social/linkedin` | `https://linkedin.com/in/yourname` |
 
+## Link previews
+
+Embeds (Discord, Slack, X, Telegram, …) are taken from the redirect target: at build time every short link fetches its target's Open Graph / Twitter metadata and renders it on the short-link page. Pasting `your-domain.com/twitch-miner-go` therefore shows the same card as the destination URL. Targets that are unreachable at build time (offline build, blocked crawler, non-HTML target) fall back to a title built from their hostname.
+
+Builds therefore need network access; fetching is capped at 4 s per target and cached per build.
+
 ## Development
 
 ```bash
