@@ -7,7 +7,7 @@ A lightweight URL shortener built with [Next.js](https://nextjs.org) and deploye
 1. The app reads `public/redirects.json` at build time.
 2. Visiting `your-domain.com/github` redirects to the mapped URL.
 3. Unknown paths return a 404 page.
-4. The root path `/` redirects to the `default` URL, if configured.
+4. The root path `/` redirects to the `index` URL, if configured.
 
 ## Configuration
 
@@ -15,7 +15,7 @@ Edit `public/redirects.json` to manage your redirects. Nested keys are supported
 
 ```json
 {
-  "default": "https://example.com",
+  "index": "https://example.com",
   "github": "https://github.com/yourname",
   "cv": "https://cv.example.com",
   "social": {
@@ -27,7 +27,7 @@ Edit `public/redirects.json` to manage your redirects. Nested keys are supported
 
 | Path | Redirects to |
 |---|---|
-| `/` | `default` value |
+| `/` | `index` value |
 | `/github` | `https://github.com/yourname` |
 | `/social/linkedin` | `https://linkedin.com/in/yourname` |
 

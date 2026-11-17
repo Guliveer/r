@@ -8,13 +8,13 @@ describe("flattenPaths", () => {
     expect(result).toEqual([{ slug: ["github"], target: "https://github.com" }]);
   });
 
-  it("skips the 'default' key at top level", () => {
-    const result = flattenPaths({ default: "https://example.com", cv: "https://cv.example.com" });
+  it("skips the 'index' key at top level", () => {
+    const result = flattenPaths({ index: "https://example.com", cv: "https://cv.example.com" });
     expect(result).toEqual([{ slug: ["cv"], target: "https://cv.example.com" }]);
   });
 
-  it("skips 'default' inside nested nodes", () => {
-    const result = flattenPaths({ social: { default: "https://example.com", github: "https://github.com" } });
+  it("skips 'index' inside nested nodes", () => {
+    const result = flattenPaths({ social: { index: "https://example.com", github: "https://github.com" } });
     expect(result).toEqual([{ slug: ["social", "github"], target: "https://github.com" }]);
   });
 
@@ -44,7 +44,7 @@ describe("flattenPaths", () => {
 
 describe("resolveRedirect", () => {
   const map: RedirectMap = {
-    default: "https://default.example.com",
+    index: "https://default.example.com",
     github: "https://github.com",
     social: {
       linkedin: "https://linkedin.com",
@@ -82,12 +82,12 @@ describe("resolveRedirect", () => {
 });
 
 describe("getDefaultRedirect", () => {
-  it("returns the default URL when present", () => {
-    const map: RedirectMap = { default: "https://example.com" };
+  it("returns the index URL when present", () => {
+    const map: RedirectMap = { index: "https://example.com" };
     expect(getDefaultRedirect(map)).toBe("https://example.com");
   });
 
-  it("returns null when default is absent", () => {
+  it("returns null when index is absent", () => {
     expect(getDefaultRedirect({})).toBeNull();
   });
 });

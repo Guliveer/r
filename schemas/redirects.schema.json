@@ -5,9 +5,9 @@
   "description": "URL redirect map. Supports nested keys for organized grouping.",
   "type": "object",
   "properties": {
-    "default": {
+    "index": {
       "type": "string",
-      "description": "Default redirect target for the root path /"
+      "description": "Redirect target for the root path / (index)"
     }
   },
   "additionalProperties": {

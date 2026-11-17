@@ -4,7 +4,7 @@ export function flattenPaths(node: RedirectNode, prefix: string[] = []): FlatRed
   const entries: FlatRedirectEntry[] = [];
 
   for (const [key, value] of Object.entries(node)) {
-    if (key === "default") continue;
+    if (key === "index") continue;
 
     const currentSlug = [...prefix, key];
 
@@ -33,7 +33,7 @@ export function resolveRedirect(segments: string[], map: RedirectMap): string | 
 }
 
 export function getDefaultRedirect(map: RedirectMap): string | null {
-  return map.default ?? null;
+  return map.index ?? null;
 }
 
 export function isSafeUrl(uri: string): boolean {

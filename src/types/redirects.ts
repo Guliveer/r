@@ -4,7 +4,7 @@ export interface RedirectNode {
   [key: string]: RedirectValue;
 }
 
-export type RedirectMap = RedirectNode & { default?: string };
+export type RedirectMap = RedirectNode & { index?: string };
 
 export interface FlatRedirectEntry {
   slug: string[];
