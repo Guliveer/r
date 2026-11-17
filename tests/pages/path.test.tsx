@@ -12,7 +12,9 @@ describe("getStaticPaths", () => {
     expect(result.fallback).toBe(false);
     expect(result.paths.length).toBeGreaterThan(0);
     const slugs = result.paths.map((p) => (p as { params: { path: string[] } }).params.path);
-    expect(slugs).toContainEqual(["github"]);
+    expect(slugs).toContainEqual(["source"]);
+    expect(slugs).toContainEqual(["social", "github"]);
+    expect(slugs).not.toContainEqual(["index"]);
   });
 });
 
@@ -23,7 +25,7 @@ describe("getStaticProps", () => {
   });
 
   it("returns props with target for a known flat path", async () => {
-    const result = await getStaticProps({ params: { path: ["github"] }, locales: undefined, locale: undefined, defaultLocale: undefined });
+    const result = await getStaticProps({ params: { path: ["source"] }, locales: undefined, locale: undefined, defaultLocale: undefined });
     expect(result).toMatchObject({ props: { target: expect.stringContaining("github.com") } });
   });
 
